@@ -50,7 +50,7 @@ rules that actually matter:
 
 ```bash
 git clone https://github.com/yapsancode/job-kit.git
-cd resume-tailor
+cd job-kit
 claude
 ```
 
