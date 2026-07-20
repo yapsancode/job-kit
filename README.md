@@ -49,7 +49,7 @@ rules that actually matter:
 ## Quick start
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/resume-tailor.git
+git clone https://github.com/yapsancode/job-kit.git
 cd resume-tailor
 claude
 ```
