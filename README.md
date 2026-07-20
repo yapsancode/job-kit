@@ -1,4 +1,4 @@
-# Resume Tailor
+# Job Kit - A Resume Tailor
 
 Turn one master resume into a job-specific, ATS-safe resume and cover letter
 in minutes — using [Claude Code](https://claude.com/claude-code) and LaTeX.
