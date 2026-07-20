@@ -1,0 +1,28 @@
+# LaTeX build artifacts
+*.aux
+*.log
+*.out
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.toc
+
+# Your private applications — keep your own job applications OUT of git.
+# (Remove this line if you actually want to version your applications.)
+applications/*
+!applications/.gitkeep
+!applications/EXAMPLE/
+
+# Your real master resume may contain personal data. If you fork this repo
+# publicly, consider keeping your filled-in version private:
+# master-resume.tex
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.idea/
+
+# Local Claude Code settings (machine-specific)
+.claude/settings.local.json

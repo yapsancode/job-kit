@@ -1,0 +1,106 @@
+% ============================================================
+% MASTER RESUME — your single source of truth.
+%
+% Put EVERYTHING here: all jobs, all projects, all skills, all
+% numbers. It can be several pages long — it is NEVER sent
+% anywhere. The /tailor command selects from this file to build
+% one-page tailored resumes per job.
+%
+% Fastest way to fill this in: copy your current resume into
+% this folder, run `claude`, and say:
+%   "Read my resume file and expand it into master-resume.tex,
+%    then interview me to fill in missing numbers and details."
+%
+% DESIGN NOTES (keep these — they make it ATS-safe AND clean):
+%  - Single column, standard fonts, no tables/graphics/icons.
+%  - Contact info in the body (not in a header/footer).
+%  - Consistent section rule via titlesec (never clamps text).
+%  - " | " separators, no em dashes.
+% ============================================================
+\documentclass[11pt]{article}
+\usepackage[margin=0.7in]{geometry}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{parskip}
+\usepackage{titlesec}
+\pagestyle{empty}
+
+% Consistent section style: title, small gap, full-width rule.
+\titleformat{\section}
+  {\large\bfseries}{}{0pt}{}[\vspace{2pt}\hrule]
+\titlespacing*{\section}{0pt}{8pt}{4pt}
+
+% Job/entry header: "Title | Organisation, Location            Dates"
+\newcommand{\job}[4]{% title, org, location(with leading ", " or empty), dates
+  \vspace{4pt}{\bfseries #1} | #2#3 \hfill #4\par}
+
+\setlist[itemize]{leftmargin=15pt, itemsep=1pt, topsep=2pt, parsep=0pt}
+
+\begin{document}
+
+% ---------- CONTACT ----------
+\begin{center}
+{\LARGE\bfseries Your Full Name}\\[3pt]
+City, Country $\vert$ your.email@example.com $\vert$ +00 000 000 0000\\[1pt]
+\href{https://linkedin.com/in/yourname}{linkedin.com/in/yourname} $\vert$
+\href{https://github.com/yourname}{github.com/yourname} $\vert$
+\href{https://yourwebsite.com}{yourwebsite.com}
+\end{center}
+
+% ---------- SUMMARY ----------
+\section{Summary}
+Two to four sentences. Who you are professionally, your years of experience,
+your two or three strongest skills, and one notable achievement with a real
+number. Write it plainly; you should be able to defend every word.
+
+% ---------- SKILLS ----------
+\section{Skills}
+\textbf{Category 1:} skill, skill, skill\\
+\textbf{Category 2:} skill, skill, skill\\
+\textbf{Category 3:} skill, skill, skill\\
+\textbf{Spoken:} Language (native), Language (level)
+% Order the categories most-relevant-first for your target field.
+
+% ---------- WORK EXPERIENCE ----------
+\section{Work Experience}
+
+\job{Job Title}{Company Name}{, City}{Jan 2023 - Present}
+\begin{itemize}
+  \item Action verb + what you did + tool/method + result with a number.
+  \item Example: Reduced report preparation time by 40\% by automating data
+        collection with Python scripts.
+  \item Add MANY bullets per role (6-10). Tailoring will pick the best few.
+\end{itemize}
+
+\job{Previous Job Title}{Previous Company}{, City}{Mar 2020 - Dec 2022}
+\begin{itemize}
+  \item ...
+\end{itemize}
+
+% ---------- PROJECTS ----------
+% Personal, freelance, open-source, or capstone projects all belong here.
+\section{Projects}
+
+\job{Project Name}{Tech, Stack, Used}{}{2024}
+\begin{itemize}
+  \item What you built, with what, and what happened as a result.
+  \item Include numbers where you truthfully have them (users, performance).
+\end{itemize}
+
+% ---------- EDUCATION ----------
+% Degrees AND bootcamps/academies/training programmes go here.
+\section{Education}
+\job{Degree, Field of Study}{University Name}{}{2016 - 2020}
+GPA / CGPA if strong. Relevant coursework or honours, if useful.
+
+% Example bootcamp entry:
+% \job{Bootcamp / Academy Name}{Provider}{}{2025}
+% 3-month intensive programme in <topic>; team-based capstone project.
+
+% ---------- CERTIFICATIONS ----------
+\section{Certifications}
+\begin{itemize}
+  \item Certification Name — Issuing Organisation, Year
+\end{itemize}
+
+\end{document}
