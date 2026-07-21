@@ -1,6 +1,8 @@
 # Cross-tool portability: rules + commands conversion
 
-Status: **not started, plan reviewed and ready to pick up.** An earlier
+Status: **implemented; static validation passed, runtime validation pending.**
+The required harness CLIs and LaTeX tools were not installed in the
+implementation environment on July 21, 2026. An earlier
 attempt was scoped out in conversation with the maintainer and briefly
 prototyped, then fully reverted (no branch, no files left behind) so a
 contributor starts from a clean `main`. This doc supersedes the original
@@ -168,6 +170,20 @@ Add it only when a Copilot user requests and can validate it.
 4. Compare `.agents/skills/` and `.claude/skills/` recursively; they must be
    byte-for-byte identical.
 5. Only mark this plan done once all checks pass.
+
+Current validation status (July 21, 2026):
+
+| Check | Status | Evidence |
+|---|---|---|
+| Static skill structure | Passed | Five valid `SKILL.md` files exist in each discovery root. |
+| Mirror equality | Passed | `diff -rq .agents/skills .claude/skills` produced no differences. |
+| Claude Code runtime | Not installed | `claude` was not available on `PATH`. |
+| Codex CLI runtime | Not installed | `codex` was not available on `PATH`. |
+| OpenCode runtime | Not installed | `opencode` was not available on `PATH`. |
+| PDF workflow | Not installed | Neither `pdflatex` nor `pdftotext` was available on `PATH`. |
+
+The implementation is ready for review, but Phase 5 remains open until the
+three runtime checks are completed in environments with those tools.
 
 ### Phase 6 — Ship
 Branch -> commit in logical chunks (AGENTS.md/CLAUDE.md, then the 5

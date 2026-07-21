@@ -8,6 +8,11 @@
 
 **Tech Stack:** Markdown, Agent Skills `SKILL.md`, `AGENTS.md`, LaTeX, POSIX validation commands.
 
+**Execution status (July 21, 2026):** Tasks 1-4 and static validation passed.
+Runtime checks are pending because `claude`, `codex`, `opencode`,
+`pdflatex`, and `pdftotext` were not installed in the implementation
+environment.
+
 ---
 
 ### Task 1: Canonical Project Rules
@@ -107,6 +112,6 @@ Static validation commands:
 diff -rq .agents/skills .claude/skills
 test "$(find .agents/skills -name SKILL.md | wc -l | tr -d ' ')" = 5
 test "$(find .claude/skills -name SKILL.md | wc -l | tr -d ' ')" = 5
-grep -R '\$ARGUMENTS\|\.claude/commands' --exclude-dir=.git . && exit 1 || true
+grep -R '\$ARGUMENTS\|\.claude/commands' --exclude-dir=.git --exclude-dir=planning . && exit 1 || true
 git diff --check
 ```
