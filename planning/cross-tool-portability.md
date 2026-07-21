@@ -178,10 +178,11 @@ Current validation status (July 21, 2026):
 | Mirror equality | Passed | `diff -rq .agents/skills .claude/skills` produced no differences. |
 | Codex CLI skill discovery and loading | Passed (0.144.5) | All five skills were discovered from `.agents/skills/`; `$analyze` loaded the project skill in a read-only invocation. |
 | OpenCode skill discovery | Passed (1.18.4) | All five project skills were discovered across the mirrored skill roots. |
-| OpenCode skill invocation | Blocked | Model execution failed because the configured provider account had reached its spending limit. |
-| Claude Code runtime | Not installed | `claude` was not available on `PATH`; legacy `.claude/commands/` remain. |
+| OpenCode skill invocation | Passed | `opencode/big-pickle` loaded `analyze` without modifying files. |
+| Claude Code runtime | Blocked | Claude Code 2.1.206 is installed, but `claude auth status` reports `loggedIn: false`; legacy `.claude/commands/` remain. |
 | End-to-end skill invocation | Pending | No harness completed a full `analyze` → `tailor` → `review` workflow. |
-| PDF workflow | Not installed | Neither `pdflatex` nor `pdftotext` was available on `PATH`. |
+| PDF extraction workflow | Passed | `tectonic` compiled `master-resume.tex`; `pdftotext` extracted the resulting PDF successfully. |
+| Exact `pdflatex` workflow | Blocked | BasicTeX installation needs an interactive macOS admin password; `pdflatex` is still unavailable. |
 
 The implementation is ready for review, but Phase 5 remains open until the
 three runtime checks are completed in environments with those tools.
@@ -205,10 +206,10 @@ untouched.
 | 6 — ship | ~10 min | none |
 
 Roughly 2 hours end to end. This pass targets Claude Code, OpenCode, and
-Codex CLI for compatibility. Only static validation, skill discovery (Codex
-CLI 0.144.5 and OpenCode 1.18.4), and a read-only Codex `analyze` load have
-been confirmed so far; Claude Code runtime and end-to-end workflow validation
-are still pending.
+Codex CLI for compatibility. Static validation, skill discovery, read-only
+`analyze` loading in Codex and OpenCode, and PDF extraction through Tectonic
+and `pdftotext` are confirmed. Claude authentication, exact `pdflatex`, and
+end-to-end workflow validation remain pending.
 
 ## Deferred scope
 Future tools should get another checked-in skill mirror only after a user

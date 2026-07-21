@@ -49,10 +49,11 @@ prep     before the interview: likely questions, STAR answers, mock round
   - Linux: `sudo apt install texlive-latex-recommended texlive-latex-extra`
 
 > **Validation status (July 21, 2026):** Codex CLI 0.144.5 and OpenCode 1.18.4
-> discovered all five skills, and Codex loaded `analyze` explicitly. OpenCode
-> execution was blocked by the configured provider's spending limit.
-> End-to-end workflow and Claude Code runtime are pending; LaTeX is unavailable
-> in this environment. The legacy
+> discovered all five skills; Codex and OpenCode loaded `analyze` explicitly.
+> Claude Code 2.1.206 is installed but needs `claude auth login`. The master
+> template compiled with `tectonic` and extracted correctly with `pdftotext`;
+> exact `pdflatex` validation is pending because BasicTeX installation needs
+> an interactive macOS admin password. The legacy
 > `.claude/commands/` files remain temporarily until Claude skill runtime
 > validation passes.
 

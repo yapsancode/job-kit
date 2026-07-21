@@ -11,11 +11,12 @@
 **Execution status (July 21, 2026):** Tasks 1-3 completed. Task 4 is
 **deferred** until Phase 5 Claude Code runtime validation passes. Static
 validation, mirror equality, and Codex CLI 0.144.5 / OpenCode 1.18.4 skill
-discovery passed; Codex also loaded `analyze` in a read-only invocation.
-OpenCode execution was blocked by the configured provider's spending limit.
-End-to-end workflow, Claude Code runtime, and PDF tooling remain pending.
-Claude Code and the LaTeX tools were not installed in the implementation
-environment.
+discovery passed; Codex and OpenCode both loaded `analyze` in read-only
+invocations. Claude Code 2.1.206 is installed but unauthenticated. `tectonic`
+compiled `master-resume.tex` and `pdftotext` extracted the PDF; exact
+`pdflatex` validation remains blocked because BasicTeX installation needs an
+interactive macOS admin password. End-to-end workflow validation remains
+pending.
 
 ---
 
