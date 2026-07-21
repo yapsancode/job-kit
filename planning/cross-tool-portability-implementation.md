@@ -8,9 +8,13 @@
 
 **Tech Stack:** Markdown, Agent Skills `SKILL.md`, `AGENTS.md`, LaTeX, POSIX validation commands.
 
-**Execution status (July 21, 2026):** Tasks 1-4 and static validation passed.
-Runtime checks are pending because `claude`, `codex`, `opencode`,
-`pdflatex`, and `pdftotext` were not installed in the implementation
+**Execution status (July 21, 2026):** Tasks 1-3 completed. Task 4 is
+**deferred** until Phase 5 Claude Code runtime validation passes. Static
+validation, mirror equality, and Codex CLI 0.144.5 / OpenCode 1.18.4 skill
+discovery passed; Codex also loaded `analyze` in a read-only invocation.
+OpenCode execution was blocked by the configured provider's spending limit.
+End-to-end workflow, Claude Code runtime, and PDF tooling remain pending.
+Claude Code and the LaTeX tools were not installed in the implementation
 environment.
 
 ---
@@ -71,27 +75,26 @@ for skill in analyze tailor review prep log; do grep -q "^name: $skill$" ".agent
 - Modify: `README.md`
 - Modify: `CONTRIBUTING.md`
 
-- [ ] Describe Job Kit as an agent-powered resume workflow supporting Claude Code, Codex CLI, and OpenCode.
-- [ ] Require one supported agent plus LaTeX instead of requiring Claude specifically.
+- [ ] Describe Job Kit as an agent-powered resume workflow targeting Claude Code, Codex CLI, and OpenCode compatibility.
+- [ ] Require one target-compatible agent harness plus LaTeX instead of requiring Claude specifically.
 - [ ] Document `claude` with `/analyze`, `codex` with `$analyze` or `/skills`, and `opencode` with a normal request to use the analyze skill.
 - [ ] Explain that skills are mirrored in `.agents/skills/` and `.claude/skills/`, while shared rules live in `AGENTS.md`.
 - [ ] Change contribution guidance from new commands to new skills and require identical edits in both skill roots.
 - [ ] Verify all three tool names, `$analyze`, and both skill paths are present with `grep -q`.
 - [ ] Commit with `git commit -m "Document cross-tool workflows"`.
 
-### Task 4: Remove Legacy Commands
+### Task 4: Defer Legacy Command Removal
 
 **Files:**
-- Delete: `.claude/commands/analyze.md`
-- Delete: `.claude/commands/tailor.md`
-- Delete: `.claude/commands/review.md`
-- Delete: `.claude/commands/prep.md`
-- Delete: `.claude/commands/log.md`
+- Keep: `.claude/commands/analyze.md`
+- Keep: `.claude/commands/tailor.md`
+- Keep: `.claude/commands/review.md`
+- Keep: `.claude/commands/prep.md`
+- Keep: `.claude/commands/log.md`
 
-- [ ] Run `diff -rq .agents/skills .claude/skills` before deletion.
-- [ ] Delete all five legacy command files; do not keep compatibility copies that could conflict with skill names.
-- [ ] Run `test ! -d .claude/commands` and verify repository files contain neither `$ARGUMENTS` nor `.claude/commands`.
-- [ ] Commit with `git commit -m "Remove legacy Claude commands"`.
+- [ ] **Defer** deletion until Phase 5 confirms Claude Code skill runtime works.
+- [ ] Until then, keep the five legacy command files unchanged so Claude Code users still have a verified invocation path.
+- [ ] When Phase 5 passes, delete the directory and verify `test ! -d .claude/commands` and that skill directories contain no `$ARGUMENTS` references.
 
 ### Task 5: Final Static and Harness Validation
 
@@ -99,7 +102,7 @@ for skill in analyze tailor review prep log; do grep -q "^name: $skill$" ".agent
 - Modify: `planning/cross-tool-portability.md`
 - Modify: `planning/cross-tool-portability-implementation.md`
 
-- [ ] Run `diff -rq` on the skill roots, count exactly five `SKILL.md` files in each root, scan for legacy placeholders and paths, and run `git diff --check`.
+- [ ] Run `diff -rq` on the skill roots, count exactly five `SKILL.md` files in each root, validate each skill frontmatter, and run `git diff --check`.
 - [ ] Check `claude`, `codex`, `opencode`, `pdflatex`, and `pdftotext` with `command -v`.
 - [ ] For every installed and authenticated harness, validate skill discovery and invoke `analyze` on a throwaway posting. Keep throwaway output untracked and remove it afterward.
 - [ ] Mark each harness `passed`, `blocked`, or `not installed` in the portability spec with an exact reason. Never claim an unexecuted runtime check passed.
@@ -112,6 +115,15 @@ Static validation commands:
 diff -rq .agents/skills .claude/skills
 test "$(find .agents/skills -name SKILL.md | wc -l | tr -d ' ')" = 5
 test "$(find .claude/skills -name SKILL.md | wc -l | tr -d ' ')" = 5
-grep -R '\$ARGUMENTS\|\.claude/commands' --exclude-dir=.git --exclude-dir=planning . && exit 1 || true
+ruby -e '
+  require "yaml"
+  Dir.glob(".agents/skills/*/SKILL.md").each do |f|
+    skill = File.basename(File.dirname(f))
+    raise "no frontmatter in #{f}" unless File.read(f) =~ /\A---\n(.*?)\n---\n?/m
+    meta = YAML.safe_load($1, permitted_classes: [], permitted_symbols: [], aliases: false)
+    raise "bad frontmatter in #{f}" unless meta.is_a?(Hash) && meta["name"] == skill && meta["description"].is_a?(String) && !meta["description"].empty?
+  end
+'
+grep -R '\$ARGUMENTS\|\.claude/commands' .agents/skills .claude/skills && exit 1 || true
 git diff --check
 ```

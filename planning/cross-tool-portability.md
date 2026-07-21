@@ -1,8 +1,8 @@
 # Cross-tool portability: rules + commands conversion
 
-Status: **implemented; static validation passed, runtime validation pending.**
-The required harness CLIs and LaTeX tools were not installed in the
-implementation environment on July 21, 2026. An earlier
+Status: **static validation and Codex/OpenCode skill discovery passed; Claude Code runtime and end-to-end workflow validation pending.**
+Codex CLI and OpenCode were available for discovery checks on July 21,
+2026; Claude Code and the LaTeX tools were not installed. An earlier
 attempt was scoped out in conversation with the maintainer and briefly
 prototyped, then fully reverted (no branch, no files left behind) so a
 contributor starts from a clean `main`. This doc supersedes the original
@@ -28,10 +28,9 @@ Other harnesses can be added after a user validates them.
   standard on Dec 18, 2025 and adopted within 48 hours by Microsoft and
   OpenAI. ~40 tools support it as of mid-2026. The file format is portable,
   but discovery directories are not yet fully standardised: Claude Code
-  reads `.claude/skills/`, Codex CLI reads `.agents/skills/` and
-  `.codex/skills/`, and OpenCode reads `.claude/skills/` and
-  `.agents/skills/`. Supporting both Claude Code and Codex therefore
-  requires two checked-in discovery locations.
+  reads `.claude/skills/`, Codex CLI reads `.agents/skills/`, and
+  OpenCode reads `.claude/skills/` and `.agents/skills/`. Supporting both
+  Claude Code and Codex therefore requires two checked-in discovery locations.
 - `master-resume.tex`, the `applications/<company>/` folder convention, and
   the pdflatex/pdftotext tooling are **already tool-agnostic** — none of
   that needs to change. Only the rules file and the commands need
@@ -61,7 +60,7 @@ Cursor, Codex, Gemini CLI, Copilot) reads AGENTS.md natively already.
 |---|---|---|
 | Skills directories | **Check identical skills into `.claude/skills/` and `.agents/skills/`** | Claude Code only discovers the first; Codex CLI discovers the second; OpenCode discovers both. Five stable Markdown files are small enough that explicit duplication is safer than symlinks, wrappers, or a new build dependency. Treat `.agents/skills/` as canonical when editing and mirror each change into `.claude/skills/`. |
 | CLAUDE.md <-> AGENTS.md link | **`@AGENTS.md` import line inside CLAUDE.md**, not a symlink | Symlinks need Developer Mode / admin rights on Windows, which is a real barrier for contributors and forkers. An import is one plain-text line and needs no OS permissions. |
-| Old `.claude/commands/` | **Delete once the new skills are verified working** (end of Phase 5), not kept alongside | The repo has no external users depending on the old format yet, and having two things both trying to be `/analyze` risks Claude Code picking the wrong one. |
+| Old `.claude/commands/` | **Keep until Claude Code skill runtime validation passes**, then delete at the end of Phase 5 | Deleting the legacy commands before Claude skills are proven working would leave Claude Code users without a verified invocation path. |
 
 The dual-directory decision corrects the earlier `.claude/skills/`-only
 plan after checking the current Codex CLI skill loader. Challenge any of
@@ -177,9 +176,11 @@ Current validation status (July 21, 2026):
 |---|---|---|
 | Static skill structure | Passed | Five valid `SKILL.md` files exist in each discovery root. |
 | Mirror equality | Passed | `diff -rq .agents/skills .claude/skills` produced no differences. |
-| Claude Code runtime | Not installed | `claude` was not available on `PATH`. |
-| Codex CLI runtime | Not installed | `codex` was not available on `PATH`. |
-| OpenCode runtime | Not installed | `opencode` was not available on `PATH`. |
+| Codex CLI skill discovery and loading | Passed (0.144.5) | All five skills were discovered from `.agents/skills/`; `$analyze` loaded the project skill in a read-only invocation. |
+| OpenCode skill discovery | Passed (1.18.4) | All five project skills were discovered across the mirrored skill roots. |
+| OpenCode skill invocation | Blocked | Model execution failed because the configured provider account had reached its spending limit. |
+| Claude Code runtime | Not installed | `claude` was not available on `PATH`; legacy `.claude/commands/` remain. |
+| End-to-end skill invocation | Pending | No harness completed a full `analyze` → `tailor` → `review` workflow. |
 | PDF workflow | Not installed | Neither `pdflatex` nor `pdftotext` was available on `PATH`. |
 
 The implementation is ready for review, but Phase 5 remains open until the
@@ -187,9 +188,11 @@ three runtime checks are completed in environments with those tools.
 
 ### Phase 6 — Ship
 Branch -> commit in logical chunks (AGENTS.md/CLAUDE.md, then the 5
-skills, then docs, then the `.claude/commands/` deletion) -> PR against
-`main`. `.claude/settings.local.json` is git-ignored and Claude-specific;
-leave it untouched.
+skills, then docs) -> PR against `main`. Delete `.claude/commands/`
+only after Phase 5 confirms Claude Code skill runtime works; until then,
+keep the legacy files so Claude Code users still have a verified path.
+`.claude/settings.local.json` is git-ignored and Claude-specific; leave it
+untouched.
 
 ## Effort / risk estimate
 | Phase | Effort | Risk |
@@ -201,8 +204,11 @@ leave it untouched.
 | 5 — validate in 3 tools | ~30 min | this is where real issues surface |
 | 6 — ship | ~10 min | none |
 
-Roughly 2 hours end to end. This pass claims support only for Claude Code,
-OpenCode, and Codex CLI because those are the tools explicitly validated.
+Roughly 2 hours end to end. This pass targets Claude Code, OpenCode, and
+Codex CLI for compatibility. Only static validation, skill discovery (Codex
+CLI 0.144.5 and OpenCode 1.18.4), and a read-only Codex `analyze` load have
+been confirmed so far; Claude Code runtime and end-to-end workflow validation
+are still pending.
 
 ## Deferred scope
 Future tools should get another checked-in skill mirror only after a user

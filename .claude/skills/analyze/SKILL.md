@@ -3,7 +3,7 @@ name: analyze
 description: Analyze a job posting and map its requirements to the master resume as strong matches, partial matches, or honest gaps. Use when the user provides a job description or URL and wants a fit analysis before tailoring.
 ---
 
-Analyze the job posting in the user's message. If it contains a URL, use that URL.
+Analyze the job posting in the user's message. If the message contains a URL, fetch it and use its content as the job posting. If URL retrieval is unavailable or fails, ask the user to paste the job description directly.
 
 Steps:
 1. If I gave nothing, ask me to paste the job description.

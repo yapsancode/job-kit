@@ -1,7 +1,7 @@
 # Job Kit - A Resume Tailor
 
 Turn one master resume into a job-specific, ATS-safe resume and cover letter
-in minutes using Claude Code, Codex CLI, or OpenCode with LaTeX.
+in minutes using a target-compatible AI agent harness and LaTeX.
 
 You keep **one** master resume with everything you have ever done. For each
 job, you paste the posting and run a few skills. Your agent reads the job,
@@ -39,7 +39,7 @@ prep     before the interview: likely questions, STAR answers, mock round
 
 ## Requirements
 
-- One supported agent and its normal account or API access:
+- One target-compatible agent harness and its normal account or API access:
   [Claude Code](https://code.claude.com/docs/en/setup),
   [Codex CLI](https://developers.openai.com/codex/cli/), or
   [OpenCode](https://opencode.ai/docs/)
@@ -47,6 +47,14 @@ prep     before the interview: likely questions, STAR answers, mock round
   - Windows: [MiKTeX](https://miktex.org)
   - macOS: [MacTeX](https://tug.org/mactex/) (or `brew install --cask mactex-no-gui`)
   - Linux: `sudo apt install texlive-latex-recommended texlive-latex-extra`
+
+> **Validation status (July 21, 2026):** Codex CLI 0.144.5 and OpenCode 1.18.4
+> discovered all five skills, and Codex loaded `analyze` explicitly. OpenCode
+> execution was blocked by the configured provider's spending limit.
+> End-to-end workflow and Claude Code runtime are pending; LaTeX is unavailable
+> in this environment. The legacy
+> `.claude/commands/` files remain temporarily until Claude skill runtime
+> validation passes.
 
 ## Quick start
 
@@ -102,7 +110,7 @@ The skills are readable Markdown files mirrored in `.agents/skills/` and
 
 ## The rules agents follow
 
-Every supported agent reads the shared project rules from `AGENTS.md`;
+Every target-compatible agent reads the shared project rules from `AGENTS.md`;
 `CLAUDE.md` imports that file for Claude Code compatibility. In short,
 `master-resume.tex` is the only source of truth, nothing is ever invented,
 resumes stay ATS-safe and one page, and everything is organised per company
