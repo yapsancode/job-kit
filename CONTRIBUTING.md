@@ -11,8 +11,8 @@ if it keeps two promises, so please preserve both in any contribution:
 ## Good things to contribute
 
 - **Better LaTeX templates** — cleaner typography that stays ATS-safe.
-- **New commands** — e.g. `/networking` (draft LinkedIn outreach),
-  `/skillgap` (given target jobs, suggest the next skill to learn).
+- **New skills** — e.g. `networking` (draft LinkedIn outreach),
+  `skillgap` (given target jobs, suggest the next skill to learn).
 - **Localisation** — clearer language, or command variants for non-English
   job markets.
 - **Docs** — setup help for specific OSes or LaTeX distributions.
@@ -20,8 +20,11 @@ if it keeps two promises, so please preserve both in any contribution:
 ## How to contribute
 
 1. Fork the repo and create a branch.
-2. Make your change. If you touch the resume template, compile it and run a
-   `pdftotext` check to confirm it still reads top-to-bottom.
+2. Make your change. Skills are mirrored for tool compatibility, so every
+   change must be identical in `.agents/skills/<name>/SKILL.md` and
+   `.claude/skills/<name>/SKILL.md`. If you touch the resume template,
+   compile it and run a `pdftotext` check to confirm it still reads
+   top-to-bottom.
 3. Open a pull request describing what you changed and why.
 
 ## Reporting issues
