@@ -8,10 +8,12 @@ draft of this plan — one of its assumptions turned out to be wrong (see
 "Correction" below), so read this version, not old notes elsewhere.
 
 ## Goal
-Let someone use job-kit with an agent other than Claude Code (OpenCode,
-Cursor, GitHub Copilot, Codex CLI, Gemini CLI, etc.) without rewriting the
-project. Keep the `/analyze -> /tailor -> /review -> /prep` workflow and the
-two core promises (never invent, ATS-safe) identical everywhere.
+Let someone use job-kit with Claude Code, OpenCode, or Codex CLI without
+rewriting the project. Keep the `analyze -> tailor -> review -> prep`
+workflow and the two core promises (never invent, ATS-safe) identical in all
+three. Invocation syntax is tool-specific: Claude Code exposes `/analyze`,
+Codex uses `$analyze`, and OpenCode selects the skill from a normal request.
+Other harnesses can be added after a user validates them.
 
 ## Why this is feasible (verified July 2026)
 - **`AGENTS.md`** is the cross-tool standard for project instruction files,
@@ -22,10 +24,12 @@ two core promises (never invent, ATS-safe) identical everywhere.
 - **Agent Skills** (`SKILL.md`) is the portable, open replacement for
   tool-specific slash commands, published by Anthropic as an independent
   standard on Dec 18, 2025 and adopted within 48 hours by Microsoft and
-  OpenAI. ~40 tools support it as of mid-2026, including all the ones
-  listed above. A skill written once in this format runs unchanged across
-  every tool that implements the standard, as long as it sticks to the
-  portable core (see "Gotchas" below).
+  OpenAI. ~40 tools support it as of mid-2026. The file format is portable,
+  but discovery directories are not yet fully standardised: Claude Code
+  reads `.claude/skills/`, Codex CLI reads `.agents/skills/` and
+  `.codex/skills/`, and OpenCode reads `.claude/skills/` and
+  `.agents/skills/`. Supporting both Claude Code and Codex therefore
+  requires two checked-in discovery locations.
 - `master-resume.tex`, the `applications/<company>/` folder convention, and
   the pdflatex/pdftotext tooling are **already tool-agnostic** — none of
   that needs to change. Only the rules file and the commands need
@@ -35,8 +39,7 @@ two core promises (never invent, ATS-safe) identical everywhere.
 The original draft of this doc assumed Claude Code's own AGENTS.md support
 might be good enough to drop `CLAUDE.md` entirely. **Checked and false**:
 as of Claude Code 2.1.x (July 2026), Claude Code does **not** read
-`AGENTS.md` natively. It reads `CLAUDE.md`, and only falls back to
-`AGENTS.md` when no `CLAUDE.md` exists in a directory. So the fix is not
+`AGENTS.md` natively. It reads `CLAUDE.md`. So the fix is not
 "replace CLAUDE.md with AGENTS.md" but "make AGENTS.md canonical and have
 CLAUDE.md import it" (Phase 1 below). Every other target tool (OpenCode,
 Cursor, Codex, Gemini CLI, Copilot) reads AGENTS.md natively already.
@@ -51,16 +54,17 @@ Cursor, Codex, Gemini CLI, Copilot) reads AGENTS.md natively already.
   "Apply the design rules from CLAUDE.md" — a broken pointer for any tool
   that never loads CLAUDE.md.
 
-## Decisions already made (Phase 0 — don't re-litigate these)
+## Decisions for implementation (Phase 0)
 | Decision | Answer | Why |
 |---|---|---|
-| Canonical skills directory | **`.claude/skills/`** | Read natively by both Claude Code and OpenCode with zero extra setup. Only Copilot wants a different path (`.github/skills/`), and that's handled as an optional later phase, not by picking a compromise path nobody defaults to. |
+| Skills directories | **Check identical skills into `.claude/skills/` and `.agents/skills/`** | Claude Code only discovers the first; Codex CLI discovers the second; OpenCode discovers both. Five stable Markdown files are small enough that explicit duplication is safer than symlinks, wrappers, or a new build dependency. Treat `.agents/skills/` as canonical when editing and mirror each change into `.claude/skills/`. |
 | CLAUDE.md <-> AGENTS.md link | **`@AGENTS.md` import line inside CLAUDE.md**, not a symlink | Symlinks need Developer Mode / admin rights on Windows, which is a real barrier for contributors and forkers. An import is one plain-text line and needs no OS permissions. |
 | Old `.claude/commands/` | **Delete once the new skills are verified working** (end of Phase 5), not kept alongside | The repo has no external users depending on the old format yet, and having two things both trying to be `/analyze` risks Claude Code picking the wrong one. |
 
-If a contributor wants to challenge one of these, that's fine — just flag
-it to the maintainer before diverging, since they were chosen deliberately
-in a prior discussion, not defaults.
+The dual-directory decision corrects the earlier `.claude/skills/`-only
+plan after checking the current Codex CLI skill loader. Challenge any of
+these decisions with the maintainer before implementation rather than
+silently diverging.
 
 ## The conversion plan
 
@@ -81,8 +85,9 @@ in a prior discussion, not defaults.
    directly. One source of truth, no drift between two rule files.
 
 ### Phase 2 — Commands -> Skills
-Convert each file in `.claude/commands/` to `.claude/skills/<name>/SKILL.md`.
-Three fixes apply per file:
+Convert each file in `.claude/commands/` to
+`.agents/skills/<name>/SKILL.md`, then copy the finished file unchanged to
+`.claude/skills/<name>/SKILL.md`. Three fixes apply per file:
 
 **A. Add YAML frontmatter.** Commands currently have none — the name comes
 from the filename and the description is implied by line 1. Skills need:
@@ -109,13 +114,13 @@ needed elsewhere — just point at the message instead of the token, e.g.
 places): "Follow every rule in CLAUDE.md" and "Apply the design rules from
 CLAUDE.md" both become "...in AGENTS.md" / "...from AGENTS.md".
 
-| From | To | Fixes needed |
+| From | To (in both skill roots) | Fixes needed |
 |---|---|---|
-| `.claude/commands/analyze.md` | `.claude/skills/analyze/SKILL.md` | A, B |
-| `.claude/commands/tailor.md` | `.claude/skills/tailor/SKILL.md` | A, B, **C** |
-| `.claude/commands/review.md` | `.claude/skills/review/SKILL.md` | A, B |
-| `.claude/commands/prep.md` | `.claude/skills/prep/SKILL.md` | A, B |
-| `.claude/commands/log.md` | `.claude/skills/log/SKILL.md` | A, B |
+| `.claude/commands/analyze.md` | `analyze/SKILL.md` | A, B |
+| `.claude/commands/tailor.md` | `tailor/SKILL.md` | A, B, **C** |
+| `.claude/commands/review.md` | `review/SKILL.md` | A, B |
+| `.claude/commands/prep.md` | `prep/SKILL.md` | A, B |
+| `.claude/commands/log.md` | `log/SKILL.md` | A, B |
 
 Otherwise, keep the wording as close to the original as possible — the
 content and tone were already reviewed, this is a format conversion, not a
@@ -127,20 +132,21 @@ without any error telling you.
 Once all 5 are converted and verified (Phase 5), delete
 `.claude/commands/`.
 
-### Phase 3 — Multi-tool directory strategy (optional, do last)
-`.claude/skills/` already covers Claude Code + OpenCode. If Copilot support
-is wanted, it needs `.github/skills/` too:
-- Mac/Linux: symlink `.github/skills -> .claude/skills`.
-- Windows: symlinks need Developer Mode, so ship a small cross-platform
-  sync script (`scripts/sync-skills`, Node or Python, ~15 lines) that
-  copies `.claude/skills/` into `.github/skills/`, and mention running it
-  after editing a skill.
+### Phase 3 — Verify mirrored skills
+Compare `.agents/skills/` and `.claude/skills/` recursively and fail the
+validation if any file differs. Do not add a sync script or build dependency
+for five stable Markdown files. If maintaining the copies becomes a real
+problem, automate it in a follow-up.
 
-Don't block the rest of the migration on this — it's additive.
+Copilot's `.github/skills/` directory is out of scope for this first pass.
+Add it only when a Copilot user requests and can validate it.
 
 ### Phase 4 — Docs
-- `README.md`: rewrite the framing from "uses Claude Code" to "works in any
-  AGENTS.md + Agent Skills agent." Add a short per-tool quick-start table.
+- `README.md`: rewrite the framing from "uses Claude Code" to name the three
+  validated tools explicitly. Add a short per-tool quick-start table and
+  show the correct invocation syntax (`/analyze` in Claude Code,
+  `$analyze` in Codex, and a normal "use the analyze skill" request in
+  OpenCode). Avoid claiming support for tools that were not tested.
   Keep the two core promises (never invent, ATS-safe) front and center —
   see `CONTRIBUTING.md`, they must survive any contribution.
 - `CONTRIBUTING.md`: update the reference to Claude-only commands to point
@@ -151,12 +157,17 @@ Don't block the rest of the migration on this — it's additive.
 1. Run all 5 skills end-to-end in **Claude Code** on a throwaway job
    posting. Confirm files land correctly in `applications/`, the
    never-invent rule is respected, and the resume PDF is one page.
-2. Run the same end-to-end pass in **at least one non-Claude tool.**
-   OpenCode is the recommended first target — it's free, open-source, and
-   reads both `AGENTS.md` and `.claude/skills/` natively, so it's the
-   lowest-friction proof that the conversion actually works elsewhere and
-   not just in theory.
-3. Only mark this plan done once both passes succeed.
+2. Run the same end-to-end pass in **OpenCode**. It reads `AGENTS.md` and
+   both skill directories, making it the lowest-friction full portability
+   test. Request each named skill normally and confirm OpenCode loads it
+   through the native `skill` tool.
+3. In **Codex CLI**, confirm all five skills are discovered from
+   `.agents/skills/` and invoke at least `$analyze` through the point where
+   it writes `job-description.md` and `job-analysis.md`. A full PDF pass is
+   optional because the same skill files already passed in OpenCode.
+4. Compare `.agents/skills/` and `.claude/skills/` recursively; they must be
+   byte-for-byte identical.
+5. Only mark this plan done once all checks pass.
 
 ### Phase 6 — Ship
 Branch -> commit in logical chunks (AGENTS.md/CLAUDE.md, then the 5
@@ -168,18 +179,15 @@ leave it untouched.
 | Phase | Effort | Risk |
 |---|---|---|
 | 1 — AGENTS.md + CLAUDE.md import | ~5 min | none |
-| 2 — 5 skill conversions | ~30 min | low, mechanical |
-| 3 — Copilot directory (optional) | ~15 min | low |
+| 2 — 5 skill conversions in 2 roots | ~40 min | low, mechanical |
+| 3 — Verify mirrored skills | ~5 min | low |
 | 4 — docs | ~30 min | none |
-| 5 — validate in 2 tools | ~30 min | this is where real issues surface |
+| 5 — validate in 3 tools | ~30 min | this is where real issues surface |
 | 6 — ship | ~10 min | none |
 
-Roughly 2 hours end to end; Phases 1-2 alone (~35 min) already make the
-project work in Claude Code, OpenCode, Cursor, Codex CLI, and Gemini CLI.
+Roughly 2 hours end to end. This pass claims support only for Claude Code,
+OpenCode, and Codex CLI because those are the tools explicitly validated.
 
-## Open questions for whoever picks this up
-- Is Copilot support (Phase 3) wanted for v1, or can it wait for a
-  follow-up PR once someone actually asks for it?
-- Should the exact skills-directory paths Cursor and Codex CLI expect be
-  double-checked against their current docs at implementation time, in
-  case they've changed since this was last verified (July 2026)?
+## Deferred scope
+Future tools should get another checked-in skill mirror only after a user
+volunteers to validate that harness.
