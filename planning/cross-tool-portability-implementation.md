@@ -1,7 +1,5 @@
 # Cross-Tool Portability Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
-
 **Goal:** Make Job Kit's rules and five workflows natively discoverable in Claude Code, Codex CLI, and OpenCode.
 
 **Architecture:** `AGENTS.md` becomes the canonical rules file, while `CLAUDE.md` imports it. Each workflow is stored byte-for-byte identically in `.agents/skills/` and `.claude/skills/`; no wrappers, symlinks, generators, or dependencies are added.
