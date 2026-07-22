@@ -25,7 +25,8 @@ if it keeps two promises, so please preserve both in any contribution:
    `.claude/skills/<name>/SKILL.md`. If you touch the resume template,
    compile it and run a `pdftotext` check to confirm it still reads
    top-to-bottom.
-3. Open a pull request describing what you changed and why.
+3. Open a pull request against `development`, not `main`. `development` is
+   where changes get tested before they're promoted to `main`.
 
 ## Reporting issues
 
