@@ -9,6 +9,12 @@ These rules apply to every agent, every skill, and every generated document.
 - If a job requirement is not covered by the master resume, report it as a
   gap. Do not paper over it. Honest gaps are useful; fabrication is not.
 
+## Asking the user questions
+- Before asking anything, check whether `master-resume.tex` already answers it.
+- Collect every question you have FIRST, then ask them together as ONE
+  batched, numbered list — never one question at a time across many turns.
+- If a second round is truly needed, keep it short and explain why.
+
 ## ATS-safe formatting rules (apply to every generated resume)
 - Single column only. No tables, no text boxes, no images, no icons.
 - Contact info in the document body, not in a page header/footer.
