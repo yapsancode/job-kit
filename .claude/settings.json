@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pdflatex *)",
+      "Bash(tectonic *)",
+      "Bash(pdftotext *)",
+      "Bash(pdfinfo *)",
+      "Bash(mkdir *)",
+      "WebSearch",
+      "Edit(master-resume.tex)",
+      "Edit(applications/**)",
+      "Write(applications/**)"
+    ]
+  }
+}

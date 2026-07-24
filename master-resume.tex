@@ -1,15 +1,17 @@
 % ============================================================
 % MASTER RESUME — your single source of truth.
 %
+% *** FICTIONAL TEST DATA ***
+% This content (Jordan Ruiz) is a made-up persona used only to test
+% the cross-tool-portability skills on the `development` branch.
+% It is NOT a real candidate. Do not commit your real details over
+% this file on a pushed/public branch — fill in your real resume
+% locally and keep it uncommitted (or gitignored) instead.
+%
 % Put EVERYTHING here: all jobs, all projects, all skills, all
 % numbers. It can be several pages long — it is NEVER sent
-% anywhere. The /tailor command selects from this file to build
+% anywhere. The tailor skill selects from this file to build
 % one-page tailored resumes per job.
-%
-% Fastest way to fill this in: copy your current resume into
-% this folder, run `claude`, and say:
-%   "Read my resume file and expand it into master-resume.tex,
-%    then interview me to fill in missing numbers and details."
 %
 % DESIGN NOTES (keep these — they make it ATS-safe AND clean):
 %  - Single column, standard fonts, no tables/graphics/icons.
@@ -40,67 +42,106 @@
 
 % ---------- CONTACT ----------
 \begin{center}
-{\LARGE\bfseries Your Full Name}\\[3pt]
-City, Country $\vert$ your.email@example.com $\vert$ +00 000 000 0000\\[1pt]
-\href{https://linkedin.com/in/yourname}{linkedin.com/in/yourname} $\vert$
-\href{https://github.com/yourname}{github.com/yourname} $\vert$
-\href{https://yourwebsite.com}{yourwebsite.com}
+{\LARGE\bfseries Jordan Ruiz}\\[3pt]
+Austin, TX, USA $\vert$ jordan.ruiz.test@example.com $\vert$ +1 512 555 0134\\[1pt]
+\href{https://linkedin.com/in/jordanruiz-test}{linkedin.com/in/jordanruiz-test} $\vert$
+\href{https://github.com/jordanruiz-test}{github.com/jordanruiz-test} $\vert$
+\href{https://jordanruiz.example.com}{jordanruiz.example.com}
 \end{center}
 
 % ---------- SUMMARY ----------
 \section{Summary}
-Two to four sentences. Who you are professionally, your years of experience,
-your two or three strongest skills, and one notable achievement with a real
-number. Write it plainly; you should be able to defend every word.
+Backend-leaning software engineer with 5 years of experience building and
+scaling Python and Node.js services on AWS. Strongest in API design, event
+pipelines, and deployment automation. Cut failed-deploy recovery time by
+60\% by building automated rollback tooling.
 
 % ---------- SKILLS ----------
 \section{Skills}
-\textbf{Category 1:} skill, skill, skill\\
-\textbf{Category 2:} skill, skill, skill\\
-\textbf{Category 3:} skill, skill, skill\\
-\textbf{Spoken:} Language (native), Language (level)
-% Order the categories most-relevant-first for your target field.
+\textbf{Languages:} Python, TypeScript/JavaScript, SQL, Go\\
+\textbf{Backend \& Cloud:} FastAPI, Django, Node.js/Express, AWS (Lambda, ECS, RDS), Docker, Kubernetes\\
+\textbf{Data \& Tools:} PostgreSQL, Redis, Kafka, Airflow, Terraform, GitHub Actions\\
+\textbf{Spoken:} English (native), Spanish (conversational)
 
 % ---------- WORK EXPERIENCE ----------
 \section{Work Experience}
 
-\job{Job Title}{Company Name}{, City}{Jan 2023 - Present}
+\job{Backend Engineer}{Northlake Systems}{, Austin, TX}{Jun 2022 - Present}
 \begin{itemize}
-  \item Action verb + what you did + tool/method + result with a number.
-  \item Example: Reduced report preparation time by 40\% by automating data
-        collection with Python scripts.
-  \item Add MANY bullets per role (6-10). Tailoring will pick the best few.
+  \item Redesigned the order-processing API from a monolith into 6 microservices
+        using FastAPI and Docker, cutting average response time from 480ms to 140ms.
+  \item Built a Kafka-based event pipeline processing 2.3M events per day,
+        replacing a nightly batch job and reducing data staleness from 24 hours
+        to under 5 minutes.
+  \item Automated deployment rollback tooling with GitHub Actions and Terraform,
+        cutting failed-deploy recovery time by 60\%.
+  \item Migrated the primary PostgreSQL database to a read-replica architecture,
+        cutting peak query latency by 35\% during traffic spikes.
+  \item Mentored 3 junior engineers through a structured onboarding program,
+        shortening ramp-up time from 8 weeks to 5.
+  \item Introduced contract testing between 4 internal services using Pact,
+        reducing integration bugs caught in staging by 45\%.
+  \item Wrote internal runbooks and documentation that cut on-call escalations
+        by 30\%.
 \end{itemize}
 
-\job{Previous Job Title}{Previous Company}{, City}{Mar 2020 - Dec 2022}
+\job{Software Engineer}{BrightPath Analytics}{, Remote}{Mar 2020 - May 2022}
 \begin{itemize}
-  \item ...
+  \item Built a customer-facing analytics dashboard in React and Node.js used
+        by over 1,200 monthly active clients.
+  \item Developed ETL pipelines in Python and Airflow ingesting data from
+        15+ third-party APIs, processing 500,000+ records daily.
+  \item Implemented role-based access control across 3 internal applications,
+        closing a security gap flagged in a client audit.
+  \item Optimized a reporting SQL query from 12 seconds to 900ms by adding
+        targeted indexes and rewriting joins.
+  \item Shipped a self-serve data export feature with the product team,
+        reducing support tickets related to data requests by 25\%.
+  \item Wrote unit and integration tests that raised backend test coverage
+        from 40\% to 78\%.
 \end{itemize}
 
 % ---------- PROJECTS ----------
 % Personal, freelance, open-source, or capstone projects all belong here.
 \section{Projects}
 
-\job{Project Name}{Tech, Stack, Used}{}{2024}
+\job{shipwatch (open-source CLI)}{Python, Click, GitHub Actions}{}{2023}
 \begin{itemize}
-  \item What you built, with what, and what happened as a result.
-  \item Include numbers where you truthfully have them (users, performance).
+  \item Built and published a CLI tool that monitors GitHub Actions workflow
+        health across multiple repos, reaching 300+ GitHub stars.
+  \item Added Slack alerting integration, adopted by 2 other engineering teams
+        outside the original project.
+\end{itemize}
+
+\job{Kubernetes autoscaling demo (bootcamp capstone)}{Kubernetes, Terraform, AWS}{}{2022}
+\begin{itemize}
+  \item Built a demo cluster with horizontal pod autoscaling triggered by
+        custom Prometheus metrics, presented to a panel of 4 industry mentors.
+\end{itemize}
+
+\job{Personal finance tracker}{TypeScript, Next.js, PostgreSQL}{}{2021}
+\begin{itemize}
+  \item Built a self-hosted budgeting app with automatic bank-statement CSV
+        parsing and category tagging.
+  \item Used by a group of 20 beta users; iterated across 3 releases based on
+        their feedback.
 \end{itemize}
 
 % ---------- EDUCATION ----------
 % Degrees AND bootcamps/academies/training programmes go here.
 \section{Education}
-\job{Degree, Field of Study}{University Name}{}{2016 - 2020}
-GPA / CGPA if strong. Relevant coursework or honours, if useful.
+\job{B.S. Computer Science}{University of Texas at Austin}{}{2016 - 2020}
+GPA 3.6/4.0. Relevant coursework: Distributed Systems, Databases, Algorithms.
 
-% Example bootcamp entry:
-% \job{Bootcamp / Academy Name}{Provider}{}{2025}
-% 3-month intensive programme in <topic>; team-based capstone project.
+\job{Cloud Infrastructure Bootcamp}{CloudForge Academy}{}{2022}
+8-week intensive programme in AWS and Kubernetes infrastructure; team
+capstone project (see Projects).
 
 % ---------- CERTIFICATIONS ----------
 \section{Certifications}
 \begin{itemize}
-  \item Certification Name — Issuing Organisation, Year
+  \item AWS Certified Solutions Architect - Associate — Amazon Web Services, 2023
+  \item Terraform Associate — HashiCorp, 2022
 \end{itemize}
 
 \end{document}

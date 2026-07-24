@@ -76,8 +76,9 @@ Then, inside the agent:
 
 1. **Build your master resume.** Copy your current resume (PDF or Word) into
    this folder, then tell the agent:
-   > Read my resume file and expand it into master-resume.tex. Then interview
-   > me one question at a time to fill in missing numbers and details.
+   > Read my resume file and expand it into master-resume.tex. Then ask me
+   > for any missing numbers and details — collect all your questions and
+   > ask them together as one batched list, not one at a time.
 
    Your master resume should hold *more* than a normal resume — every
    project, every number, every skill. It can be several pages; it is never
@@ -95,6 +96,29 @@ Then, inside the agent:
 4. **Keep it fresh.** Whenever you ship or learn something:
    Invoke the `log` skill with the factual update, for example: "finished
    an eval harness for my project; accuracy went from 70% to 91%."
+
+## First run: what to expect
+
+Two things surprise new users, and both are intentional — but we have
+smoothed them out:
+
+**Questions.** On your first session the agent interviews you to fill in
+your master resume with real projects, numbers, and dates. This happens
+because the kit refuses to invent anything — it can only work with facts
+you give it. The interview happens **once**; after that, each application
+takes only a few minutes. The project rules tell the agent to ask its
+questions as one batched list, not one at a time.
+
+**Permission prompts.** Claude Code asks before running commands on your
+machine — that is its safety model, not a bug. This repo ships a
+pre-approved list (`.claude/settings.json`) covering the routine commands
+the skills use: compiling PDFs (`pdflatex`), checking how an ATS robot
+reads them (`pdftotext`, `pdfinfo`), creating application folders, and
+editing files inside `applications/`. Anything outside that list — deleting
+files, installing software, fetching an unknown website — still asks you
+first. That is the safety belt working as intended, and those prompts
+should now be rare. (Codex CLI and OpenCode have their own approval
+systems; check their docs for the equivalent setting.)
 
 ## The skills
 
