@@ -11,6 +11,8 @@ the message does not say which role, ask which one.
 
 The compiled resume in that folder is named after the candidate and the
 role, so find it by pattern (`*-Resume-*.pdf`), not by a fixed filename.
+Folders created before this naming rule may still hold a plain `resume.pdf`;
+fall back to that if no `*-Resume-*.pdf` exists.
 
 Act as two different reviewers and be strict. Save results as `review.md`
 in the application folder and show me the summary.

@@ -125,6 +125,39 @@ first. That is the safety belt working as intended, and those prompts
 should now be rare. (Codex CLI and OpenCode have their own approval
 systems; check their docs for the equivalent setting.)
 
+## Updating to a newer version
+
+If you cloned this repo, pull the latest changes from inside your job-kit
+folder:
+
+```bash
+git pull
+```
+
+If you forked it, click **Sync fork** on your GitHub page first, then run
+`git pull` locally.
+
+Three things to know before you pull:
+
+- **Your applications are safe.** Everything under `applications/` is
+  git-ignored, so `git pull` never touches your job folders, your PDFs, or
+  your history. Folders you created before the naming rules changed keep
+  their old names and keep working.
+- **Your master resume is safe too, but check the diff.**
+  `master-resume.tex` is tracked by git. Your filled-in version lives as a
+  local change on top of it. As long as an update does not edit that file,
+  `git pull` leaves your content alone. If git ever reports a conflict
+  there, keep your version: `git checkout --ours master-resume.tex`.
+- **If you customised `AGENTS.md`, expect a conflict.** You are encouraged
+  to adjust those rules, but updates change that file too. Git will mark
+  the overlapping lines and you decide which to keep.
+
+To see exactly what an update will change before you accept it:
+
+```bash
+git fetch && git diff HEAD origin/main
+```
+
 ## The skills
 
 | Skill | What it does |

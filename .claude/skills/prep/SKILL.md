@@ -10,7 +10,8 @@ I did not say which role, ask which one.
 (If nothing is given, use the most recent folder in `applications/`.)
 
 Read `job-analysis.md`, the content of the tailored resume PDF in that
-folder (find it by pattern, `*-Resume-*.pdf`), and `master-resume.tex`.
+folder (find it by pattern, `*-Resume-*.pdf`, falling back to a plain
+`resume.pdf` in older folders), and `master-resume.tex`.
 Save as `interview-prep.md` and walk me through the highlights.
 
 1. List the 10 most likely interview questions for this role: a mix of
