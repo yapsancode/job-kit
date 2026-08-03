@@ -13,9 +13,11 @@ applications/*
 !applications/.gitkeep
 !applications/EXAMPLE/
 
-# Your real master resume may contain personal data. If you fork this repo
-# publicly, consider keeping your filled-in version private:
-# master-resume.tex
+# Your real master resume holds personal data, and it is yours alone.
+# The tracked template is master-resume.example.tex; copy it once to
+# master-resume.tex and fill it in. Keeping your copy out of git means
+# template updates can never conflict with your own content.
+master-resume.tex
 
 # OS / editor junk
 .DS_Store

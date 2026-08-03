@@ -22,6 +22,10 @@ Steps:
    - STRONG match (I clearly have it)
    - PARTIAL match (related experience, needs careful wording)
    - GAP (I don't have it — be honest, do not invent)
+   If `master-resume.tex` does not exist, or still holds the placeholder
+   content from `master-resume.example.tex`, stop here and tell me to build
+   my real master resume first. An analysis against placeholder data is
+   worthless.
 6. If you have web access, briefly research the company: what they do,
    recent news, culture signals. 5-8 lines maximum.
 7. Save everything as `job-analysis.md` in that same folder, with the exact

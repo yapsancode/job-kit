@@ -22,9 +22,11 @@ if it keeps two promises, so please preserve both in any contribution:
 1. Fork the repo and create a branch.
 2. Make your change. Skills are mirrored for tool compatibility, so every
    change must be identical in `.agents/skills/<name>/SKILL.md` and
-   `.claude/skills/<name>/SKILL.md`. If you touch the resume template,
-   compile it and run a `pdftotext` check to confirm it still reads
-   top-to-bottom.
+   `.claude/skills/<name>/SKILL.md`. The resume template lives in
+   `master-resume.example.tex`; `master-resume.tex` is each user's private,
+   git-ignored copy, so never commit changes to it. If you touch the
+   template, compile it and run a `pdftotext` check to confirm it still
+   reads top-to-bottom.
 3. Open a pull request against `development`, not `main`. `development` is
    where changes get tested before they're promoted to `main`.
 

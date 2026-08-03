@@ -4,6 +4,11 @@ These rules apply to every agent, every skill, and every generated document.
 
 ## Ground truth
 - `master-resume.tex` is the ONLY source of truth about the candidate.
+- That file is the user's private copy and is not tracked by git. If it does
+  not exist yet, copy the tracked template `master-resume.example.tex` to
+  `master-resume.tex`, tell the user you did so, and then interview them to
+  replace the placeholder content with their real experience. Never edit
+  `master-resume.example.tex` with the user's personal data.
 - NEVER invent, exaggerate, or assume jobs, titles, dates, skills, tools,
   metrics, or achievements. If information is missing, ASK the user.
 - If a job requirement is not covered by the master resume, report it as a

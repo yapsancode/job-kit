@@ -4,7 +4,10 @@ This is my "log as you go" habit — I tell you what I shipped, learned, or
 measured, and you file it into `master-resume.tex` properly.
 
 Steps:
-1. Read `master-resume.tex` and find where this update belongs:
+1. Read `master-resume.tex` and find where this update belongs. If that file
+   does not exist yet, copy `master-resume.example.tex` to
+   `master-resume.tex` first, say so, and note that it still holds
+   placeholder content that needs replacing with my real experience.
    - New achievement on an existing project/job → new or improved bullet there
    - New number for an existing bullet → strengthen that bullet
    - New skill/tool used in real work → add to the right Skills category

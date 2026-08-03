@@ -74,15 +74,22 @@ Start your chosen agent and invoke skills using its native syntax:
 
 Then, inside the agent:
 
-1. **Build your master resume.** Copy your current resume (PDF or Word) into
-   this folder, then tell the agent:
+1. **Build your master resume.** Make your own copy of the template:
+
+   ```bash
+   cp master-resume.example.tex master-resume.tex
+   ```
+
+   `master-resume.tex` is git-ignored, so your personal version stays
+   yours and future updates to this repo can never overwrite it. Then copy
+   your current resume (PDF or Word) into this folder and tell the agent:
    > Read my resume file and expand it into master-resume.tex. Then ask me
    > for any missing numbers and details — collect all your questions and
    > ask them together as one batched list, not one at a time.
 
    Your master resume should hold *more* than a normal resume — every
    project, every number, every skill. It can be several pages; it is never
-   sent anywhere. See `master-resume.tex` for the template and format.
+   sent anywhere. See `master-resume.example.tex` for the format.
 
 2. **Apply to a job.** Find a real posting, copy the text, then invoke the
    `analyze`, `tailor`, and `review` skills in that order. Use `/skill-name`
@@ -143,11 +150,9 @@ Three things to know before you pull:
   git-ignored, so `git pull` never touches your job folders, your PDFs, or
   your history. Folders you created before the naming rules changed keep
   their old names and keep working.
-- **Your master resume is safe too, but check the diff.**
-  `master-resume.tex` is tracked by git. Your filled-in version lives as a
-  local change on top of it. As long as an update does not edit that file,
-  `git pull` leaves your content alone. If git ever reports a conflict
-  there, keep your version: `git checkout --ours master-resume.tex`.
+- **Your master resume is safe.** `master-resume.tex` is git-ignored, so
+  updates to this repo never touch it. Only the template
+  `master-resume.example.tex` is tracked, and that is a separate file.
 - **If you customised `AGENTS.md`, expect a conflict.** You are encouraged
   to adjust those rules, but updates change that file too. Git will mark
   the overlapping lines and you decide which to keep.
@@ -157,6 +162,24 @@ To see exactly what an update will change before you accept it:
 ```bash
 git fetch && git diff HEAD origin/main
 ```
+
+### One-time step if you cloned before v0.2.0
+
+Before v0.2.0, `master-resume.tex` itself was tracked by git. Version 0.2.0
+turns it into your private, ignored file. Because git still thinks it owns
+your old copy, `git pull` will refuse to run until you set it aside. Back it
+up, take the update, then put it back:
+
+```bash
+cp master-resume.tex master-resume.backup.tex
+git checkout -- master-resume.tex
+git pull
+mv master-resume.backup.tex master-resume.tex
+```
+
+Your resume content is untouched by this — the middle two commands only
+affect what git tracks. After it, `master-resume.tex` is yours and no future
+update can conflict with it.
 
 ## The skills
 
