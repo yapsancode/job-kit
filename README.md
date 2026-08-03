@@ -88,10 +88,15 @@ Then, inside the agent:
    `analyze`, `tailor`, and `review` skills in that order. Use `/skill-name`
    in Claude Code, `$skill-name` in Codex, or ask OpenCode to use the named
    skill.
-   Your PDFs land in `applications/<company>/`.
+   Your PDFs land in `applications/<company>-<position>/`, named for you and
+   the role, for example
+   `applications/oxydata-software-agentic-ai-engineer/Jordan-Ruiz-Resume-Agentic-AI-Engineer.pdf`.
+   The folder includes the position so a second application to the same
+   company later never overwrites the first, and the PDF carries your name
+   because that is the filename a recruiter sees after you upload it.
 
 3. **Before the interview:**
-   Invoke the `prep` skill with the company name.
+   Invoke the `prep` skill with the company and role.
 
 4. **Keep it fresh.** Whenever you ship or learn something:
    Invoke the `log` skill with the factual update, for example: "finished
@@ -138,7 +143,7 @@ The skills are readable Markdown files mirrored in `.agents/skills/` and
 Every target-compatible agent reads the shared project rules from `AGENTS.md`;
 `CLAUDE.md` imports that file for Claude Code compatibility. In short,
 `master-resume.tex` is the only source of truth, nothing is ever invented,
-resumes stay ATS-safe and one page, and everything is organised per company
+resumes stay ATS-safe and one page, and each application gets its own folder
 under `applications/`. Adjust `AGENTS.md` to fit your own standards.
 
 ## A note on honesty
