@@ -4,6 +4,11 @@ These rules apply to every agent, every skill, and every generated document.
 
 ## Ground truth
 - `master-resume.tex` is the ONLY source of truth about the candidate.
+- That file is the user's private copy and is not tracked by git. If it does
+  not exist yet, copy the tracked template `master-resume.example.tex` to
+  `master-resume.tex`, tell the user you did so, and then interview them to
+  replace the placeholder content with their real experience. Never edit
+  `master-resume.example.tex` with the user's personal data.
 - NEVER invent, exaggerate, or assume jobs, titles, dates, skills, tools,
   metrics, or achievements. If information is missing, ASK the user.
 - If a job requirement is not covered by the master resume, report it as a
@@ -45,14 +50,48 @@ These rules apply to every agent, every skill, and every generated document.
   sections.
 
 ## File organization
-Each application lives in `applications/<company-name>/`:
+Each application lives in its own folder named for the company AND the
+position: `applications/<company>-<position>/`, for example
+`applications/oxydata-software-agentic-ai-engineer/`. Always include the
+position, even for a first application. Applying to a second role at the
+same company later must never overwrite the first one.
+
+To build a folder name: lowercase everything, replace spaces with hyphens,
+and drop commas, slashes, brackets, and location tags. "Agentic AI Engineer
+(MY)" at "Oxydata Software Sdn Bhd" becomes
+`oxydata-software-agentic-ai-engineer`.
+
+Inside the folder:
 - `job-description.md` — the original posting text
 - `job-analysis.md` — output of the analyze skill
-- `resume.tex` + `resume.pdf`
-- `cover-letter.tex` + `cover-letter.pdf`
+- `resume.tex` + `cover-letter.tex` — the LaTeX sources, always under these
+  exact names so every skill can find them
+- the two compiled PDFs, named for the recruiter who receives them (see
+  below)
 - `changelog.md` — every change vs. master resume, with a one-line reason
 - `review.md` — output of the review skill
 - `interview-prep.md` — output of the prep skill
+
+## Naming the compiled PDFs
+The PDF filename is what a recruiter sees when they download it, so it
+carries the candidate's name and the role:
+
+    <Full-Name>-Resume-<Position>.pdf
+    <Full-Name>-Cover-Letter-<Position>.pdf
+
+for example `Jordan-Ruiz-Resume-Agentic-AI-Engineer.pdf`. Capitalise each
+word and join with hyphens. Take the full name from `master-resume.tex` and
+the position from `job-analysis.md`. Drop location tags and anything after a
+comma from a long title, so "Senior Data Analyst, Enterprise Platform (MY)"
+becomes `Senior-Data-Analyst`.
+
+Do not rename the `.tex` files to match. Set the PDF name at compile time:
+
+    pdflatex -jobname="Jordan-Ruiz-Resume-Agentic-AI-Engineer" resume.tex
+
+Run it twice, as usual, so LaTeX resolves its references. If a skill needs
+to read a compiled resume later, find it by pattern (`*-Resume-*.pdf`)
+rather than assuming a fixed filename.
 
 ## Language
 - Explain things in simple, clear language. Some users are not native

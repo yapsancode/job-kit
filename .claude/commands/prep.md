@@ -1,7 +1,12 @@
-Prepare me for an interview at: $ARGUMENTS
-(If no company name given, use the most recent folder in `applications/`.)
+Prepare me for an interview for: $ARGUMENTS
+Application folders are named `<company>-<position>`, so match that against
+the folder names in `applications/`. If the company has more than one folder
+and I did not say which role, ask which one.
+(If nothing is given, use the most recent folder in `applications/`.)
 
-Read `job-analysis.md`, `resume.pdf` content, and `master-resume.tex`.
+Read `job-analysis.md`, the content of the tailored resume PDF in that
+folder (find it by pattern, `*-Resume-*.pdf`, falling back to a plain
+`resume.pdf` in older folders), and `master-resume.tex`.
 Save as `interview-prep.md` and walk me through the highlights.
 
 1. List the 10 most likely interview questions for this role: a mix of

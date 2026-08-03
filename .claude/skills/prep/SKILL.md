@@ -3,10 +3,15 @@ name: prep
 description: Create interview preparation from a job analysis, tailored resume, and master resume. Use when the user wants likely questions, truthful STAR answers, and ways to discuss gaps.
 ---
 
-Prepare me for an interview at the company named in my message.
-(If no company name is given, use the most recent folder in `applications/`.)
+Prepare me for an interview for the job named in my message. Application
+folders are named `<company>-<position>`, so match my message against the
+folder names in `applications/`. If the company has more than one folder and
+I did not say which role, ask which one.
+(If nothing is given, use the most recent folder in `applications/`.)
 
-Read `job-analysis.md`, `resume.pdf` content, and `master-resume.tex`.
+Read `job-analysis.md`, the content of the tailored resume PDF in that
+folder (find it by pattern, `*-Resume-*.pdf`, falling back to a plain
+`resume.pdf` in older folders), and `master-resume.tex`.
 Save as `interview-prep.md` and walk me through the highlights.
 
 1. List the 10 most likely interview questions for this role: a mix of

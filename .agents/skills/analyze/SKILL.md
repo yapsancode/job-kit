@@ -7,8 +7,12 @@ Analyze the job posting in the user's message. If the message contains a URL, fe
 
 Steps:
 1. If I gave nothing, ask me to paste the job description.
-2. Identify the company name and role. Create the folder `applications/<company-name>/`
-   and save the raw posting as `job-description.md`.
+2. Identify the company name and the exact role title. Create the folder
+   `applications/<company>-<position>/`, following the naming rule in the
+   "File organization" section of AGENTS.md, and save the raw posting there
+   as `job-description.md`. Always include the position in the folder name,
+   so a later application to another role at the same company cannot
+   overwrite this one.
 3. Extract the requirements and rank each by priority 1-10 based on how much
    the posting emphasizes it (mentioned in title/first lines = high; "nice to
    have" = low).
@@ -18,9 +22,14 @@ Steps:
    - STRONG match (I clearly have it)
    - PARTIAL match (related experience, needs careful wording)
    - GAP (I don't have it — be honest, do not invent)
+   If `master-resume.tex` does not exist, or still holds the placeholder
+   content from `master-resume.example.tex`, stop here and tell me to build
+   my real master resume first. An analysis against placeholder data is
+   worthless.
 6. If you have web access, briefly research the company: what they do,
    recent news, culture signals. 5-8 lines maximum.
-7. Save everything as `applications/<company-name>/job-analysis.md` and show
+7. Save everything as `job-analysis.md` in that same folder, with the exact
+   role title as the first heading, and show
    me a short summary: top 5 requirements, my match level for each,
    and one sentence on whether this looks like a good fit and at what seniority.
 

@@ -74,24 +74,36 @@ Start your chosen agent and invoke skills using its native syntax:
 
 Then, inside the agent:
 
-1. **Build your master resume.** Copy your current resume (PDF or Word) into
-   this folder, then tell the agent:
+1. **Build your master resume.** Make your own copy of the template:
+
+   ```bash
+   cp master-resume.example.tex master-resume.tex
+   ```
+
+   `master-resume.tex` is git-ignored, so your personal version stays
+   yours and future updates to this repo can never overwrite it. Then copy
+   your current resume (PDF or Word) into this folder and tell the agent:
    > Read my resume file and expand it into master-resume.tex. Then ask me
    > for any missing numbers and details — collect all your questions and
    > ask them together as one batched list, not one at a time.
 
    Your master resume should hold *more* than a normal resume — every
    project, every number, every skill. It can be several pages; it is never
-   sent anywhere. See `master-resume.tex` for the template and format.
+   sent anywhere. See `master-resume.example.tex` for the format.
 
 2. **Apply to a job.** Find a real posting, copy the text, then invoke the
    `analyze`, `tailor`, and `review` skills in that order. Use `/skill-name`
    in Claude Code, `$skill-name` in Codex, or ask OpenCode to use the named
    skill.
-   Your PDFs land in `applications/<company>/`.
+   Your PDFs land in `applications/<company>-<position>/`, named for you and
+   the role, for example
+   `applications/oxydata-software-agentic-ai-engineer/Jordan-Ruiz-Resume-Agentic-AI-Engineer.pdf`.
+   The folder includes the position so a second application to the same
+   company later never overwrites the first, and the PDF carries your name
+   because that is the filename a recruiter sees after you upload it.
 
 3. **Before the interview:**
-   Invoke the `prep` skill with the company name.
+   Invoke the `prep` skill with the company and role.
 
 4. **Keep it fresh.** Whenever you ship or learn something:
    Invoke the `log` skill with the factual update, for example: "finished
@@ -120,6 +132,55 @@ first. That is the safety belt working as intended, and those prompts
 should now be rare. (Codex CLI and OpenCode have their own approval
 systems; check their docs for the equivalent setting.)
 
+## Updating to a newer version
+
+If you cloned this repo, pull the latest changes from inside your job-kit
+folder:
+
+```bash
+git pull
+```
+
+If you forked it, click **Sync fork** on your GitHub page first, then run
+`git pull` locally.
+
+Three things to know before you pull:
+
+- **Your applications are safe.** Everything under `applications/` is
+  git-ignored, so `git pull` never touches your job folders, your PDFs, or
+  your history. Folders you created before the naming rules changed keep
+  their old names and keep working.
+- **Your master resume is safe.** `master-resume.tex` is git-ignored, so
+  updates to this repo never touch it. Only the template
+  `master-resume.example.tex` is tracked, and that is a separate file.
+- **If you customised `AGENTS.md`, expect a conflict.** You are encouraged
+  to adjust those rules, but updates change that file too. Git will mark
+  the overlapping lines and you decide which to keep.
+
+To see exactly what an update will change before you accept it:
+
+```bash
+git fetch && git diff HEAD origin/main
+```
+
+### One-time step if you cloned before v0.2.0
+
+Before v0.2.0, `master-resume.tex` itself was tracked by git. Version 0.2.0
+turns it into your private, ignored file. Because git still thinks it owns
+your old copy, `git pull` will refuse to run until you set it aside. Back it
+up, take the update, then put it back:
+
+```bash
+cp master-resume.tex master-resume.backup.tex
+git checkout -- master-resume.tex
+git pull
+mv master-resume.backup.tex master-resume.tex
+```
+
+Your resume content is untouched by this — the middle two commands only
+affect what git tracks. After it, `master-resume.tex` is yours and no future
+update can conflict with it.
+
 ## The skills
 
 | Skill | What it does |
@@ -138,7 +199,7 @@ The skills are readable Markdown files mirrored in `.agents/skills/` and
 Every target-compatible agent reads the shared project rules from `AGENTS.md`;
 `CLAUDE.md` imports that file for Claude Code compatibility. In short,
 `master-resume.tex` is the only source of truth, nothing is ever invented,
-resumes stay ATS-safe and one page, and everything is organised per company
+resumes stay ATS-safe and one page, and each application gets its own folder
 under `applications/`. Adjust `AGENTS.md` to fit your own standards.
 
 ## A note on honesty

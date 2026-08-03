@@ -8,6 +8,7 @@
       "Bash(mkdir *)",
       "WebSearch",
       "Edit(master-resume.tex)",
+      "Write(master-resume.tex)",
       "Edit(applications/**)",
       "Write(applications/**)"
     ]
