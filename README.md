@@ -9,6 +9,11 @@ picks your most relevant experience, and generates a tailored one-page
 resume and cover letter as PDFs — then stress-tests them like a real
 recruiter and an ATS robot.
 
+> **Prefer not to use a terminal?** [KerjaKit](https://kerjakit.com) is the
+> web version of this tool, with the same never-invent rule and no setup.
+> Free credits to start, and it speaks English and Bahasa Melayu. This
+> repository stays free and open source.
+
 ## Why this exists
 
 Applying to jobs one by one is slow, and most people either send the same
@@ -47,6 +52,10 @@ prep     before the interview: likely questions, STAR answers, mock round
   - Windows: [MiKTeX](https://miktex.org)
   - macOS: [MacTeX](https://tug.org/mactex/) (or `brew install --cask mactex-no-gui`)
   - Linux: `sudo apt install texlive-latex-recommended texlive-latex-extra`
+
+If installing LaTeX is more than you want to deal with,
+[kerjakit.com](https://kerjakit.com) runs the same thing in a browser with
+nothing to install.
 
 > **Validation status (July 21, 2026):** Codex CLI 0.144.5 and OpenCode 1.18.4
 > discovered all five skills; Codex and OpenCode loaded `analyze` explicitly.
