@@ -17,7 +17,9 @@ applications/*
 # The tracked template is master-resume.example.tex; copy it once to
 # master-resume.tex and fill it in. Keeping your copy out of git means
 # template updates can never conflict with your own content.
+# The compiled PDF holds the same personal data, so it stays out too.
 master-resume.tex
+master-resume.pdf
 
 # OS / editor junk
 .DS_Store
